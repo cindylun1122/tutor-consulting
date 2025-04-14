@@ -35,37 +35,41 @@
 // export default App
 
 import { useState } from 'react';
-import tutors from './tutors.js';
+import tutors from './tutors';
+import CourseFilter from './components/CourseFilter';
+import ScoreSlider from './components/ScoreSlider';
+import SchoolFilter from './components/SchoolFilter';
+import TimeSlider from './components/TimeSlider';
+import TutorList from './components/TutorList';
 
 function App() {
-  const [filter, setFilter] = useState('');
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [minScore, setMinScore] = useState(85);
+  const [selectedSchools, setSelectedSchools] = useState([]);
+  const [selectedHours, setSelectedHours] = useState([8, 22]); // time range in 24hr
 
-  const mathCourses = ['SI508', 'SI501', 'SI506'];
-  const programmingCourses = ['SI507', 'SI539', 'SI544', 'SI649', 'SI650', 'SI579', 'SI699', 'SI612', 'SI664', 'SI582'];
-  const courseList = filter === 'math' ? mathCourses : filter === 'programming' ? programmingCourses : [];
+  const filteredTutors = tutors.filter(tutor => {
+    const matchesCourse = selectedCourses.length === 0 || selectedCourses.some(c => tutor.course.includes(c));
+    const matchesScore = tutor.satisfaction_score >= minScore;
+    const matchesSchool = selectedSchools.length === 0 || selectedSchools.some(school =>
+      tutor.target_school.includes(school)
+    );
+    const matchesTime = tutor.available_time_slot.some(slot => {
+      const [start] = slot.split('-').map(t => parseInt(t.split(':')[0]));
+      return start >= selectedHours[0] && start <= selectedHours[1];
+    });
 
-  const filteredTutors = filter
-    ? tutors.filter(tutor => tutor.course.some(course => courseList.includes(course)))
-    : tutors;
+    return matchesCourse && matchesScore && matchesSchool && matchesTime;
+  });
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
       <h1>Tutor Consult</h1>
-      <div style={{ marginBottom: '1rem' }}>
-        <button onClick={() => setFilter('math')}>Math Tutors</button>
-        <button onClick={() => setFilter('programming')}>Programming Tutors</button>
-        <button onClick={() => setFilter('')}>All Tutors</button>
-      </div>
-      <ul>
-        {filteredTutors.map((tutor, index) => (
-          <li key={index} style={{ marginBottom: '1rem' }}>
-            <strong>{tutor.name}</strong><br />
-            Courses: {tutor.course.join(', ')}<br />
-            Languages: {Object.entries(tutor.languages).map(([lang, level]) => `${lang} (${level})`).join(', ')}<br />
-            Patience: {tutor.patience}
-          </li>
-        ))}
-      </ul>
+      <CourseFilter selectedCourses={selectedCourses} setSelectedCourses={setSelectedCourses} />
+      <ScoreSlider minScore={minScore} setMinScore={setMinScore} />
+      <SchoolFilter selectedSchools={selectedSchools} setSelectedSchools={setSelectedSchools} />
+      <TimeSlider selectedHours={selectedHours} setSelectedHours={setSelectedHours} />
+      <TutorList tutors={filteredTutors} />
     </div>
   );
 }
