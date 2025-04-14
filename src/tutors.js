@@ -280,3 +280,5 @@ const tutors = [{
     }
 
 ];
+
+export { tutors };

@@ -35,12 +35,12 @@
 // export default App
 
 import { useState } from 'react';
-import tutors from './tutors';
+import { tutors } from './tutors';
 import CourseFilter from './components/CourseFilter';
 import ScoreSlider from './components/ScoreSlider';
 import SchoolFilter from './components/SchoolFilter';
-import TimeSlider from './components/TimeSlider';
 import TutorList from './components/TutorList';
+// import TimeSlider from './components/TimeSlider';
 
 function App() {
   const [selectedCourses, setSelectedCourses] = useState([]);
@@ -54,12 +54,13 @@ function App() {
     const matchesSchool = selectedSchools.length === 0 || selectedSchools.some(school =>
       tutor.target_school.includes(school)
     );
-    const matchesTime = tutor.available_time_slot.some(slot => {
-      const [start] = slot.split('-').map(t => parseInt(t.split(':')[0]));
-      return start >= selectedHours[0] && start <= selectedHours[1];
-    });
+    // const matchesTime = tutor.available_time_slot.some(slot => {
+    //   const [start] = slot.split('-').map(t => parseInt(t.split(':')[0]));
+    //   return start >= selectedHours[0] && start <= selectedHours[1];
+    // });
 
-    return matchesCourse && matchesScore && matchesSchool && matchesTime;
+    return matchesCourse && matchesScore && matchesSchool;
+    // && matchesTime;
   });
 
   return (
@@ -68,7 +69,7 @@ function App() {
       <CourseFilter selectedCourses={selectedCourses} setSelectedCourses={setSelectedCourses} />
       <ScoreSlider minScore={minScore} setMinScore={setMinScore} />
       <SchoolFilter selectedSchools={selectedSchools} setSelectedSchools={setSelectedSchools} />
-      <TimeSlider selectedHours={selectedHours} setSelectedHours={setSelectedHours} />
+      {/* <TimeSlider selectedHours={selectedHours} setSelectedHours={setSelectedHours} /> */}
       <TutorList tutors={filteredTutors} />
     </div>
   );
