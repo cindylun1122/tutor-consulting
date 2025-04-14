@@ -8,7 +8,7 @@ const allSchools = [
   "University of Southern California", "New York University", "University of Texas at Austin"
 ];
 
-function SchoolFilter({ selectedSchools, setSelectedSchools }) {
+const SchoolFilter = ({ selectedSchools, setSelectedSchools }) => {
   const [inputList, setInputList] = useState(['']);
 
   const handleChange = (value, index) => {
@@ -37,7 +37,7 @@ function SchoolFilter({ selectedSchools, setSelectedSchools }) {
             type="text"
             placeholder="Type to search..."
             value={input}
-            onChange={(e) => handleChange(e.target.value, index)}
+            onChange={e => handleChange(e.target.value, index)}
             list={`school-options-${index}`}
           />
           <datalist id={`school-options-${index}`}>
@@ -53,6 +53,6 @@ function SchoolFilter({ selectedSchools, setSelectedSchools }) {
       <div>Selected: {selectedSchools.join(', ')}</div>
     </div>
   );
-}
+};
 
 export default SchoolFilter;

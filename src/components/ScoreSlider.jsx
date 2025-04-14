@@ -2,11 +2,9 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
-function valuetext(value) {
-  return `${value}%`;
-}
+const valuetext = (value) => `${value}%`;
 
-export default function ScoreSlider({ minScore, setMinScore }) {
+const ScoreSlider = ({ minScore, setMinScore }) => {
   const handleChange = (event, newValue) => {
     setMinScore(newValue);
   };
@@ -28,4 +26,6 @@ export default function ScoreSlider({ minScore, setMinScore }) {
       />
     </Box>
   );
-}
+};
+
+export default ScoreSlider;

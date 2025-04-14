@@ -1,29 +1,108 @@
-const subjects = ["Math", "Physics", "Chemistry", "English", "Spanish", "History", "Biology", "Geography"];
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
 
-function CourseFilter({ selectedCourses, setSelectedCourses }) {
-  const toggleCourse = (subject) => {
-    if (selectedCourses.includes(subject)) {
-      setSelectedCourses(selectedCourses.filter(s => s !== subject));
-    } else {
-      setSelectedCourses([...selectedCourses, subject]);
-    }
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const subjects = [
+  "Math", "Physics", "Chemistry", "English", "Spanish",
+  "History", "Biology", "Geography"
+];
+
+const getStyles = (name, selectedCourses, theme) => ({
+  fontWeight: selectedCourses.includes(name)
+    ? theme.typography.fontWeightMedium
+    : theme.typography.fontWeightRegular,
+});
+
+const CourseFilter = ({ selectedCourses, setSelectedCourses }) => {
+  const theme = useTheme();
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedCourses(typeof value === 'string' ? value.split(',') : value);
   };
 
   return (
-    <div>
-      <h3>Courses</h3>
-      {subjects.map(subject => (
-        <label key={subject} style={{ marginRight: '10px' }}>
-          <input
-            type="checkbox"
-            checked={selectedCourses.includes(subject)}
-            onChange={() => toggleCourse(subject)}
-          />
-          {subject}
-        </label>
-      ))}
-    </div>
+    <Box sx={{ m: 2, width: 300 }}>
+      <FormControl fullWidth>
+        <InputLabel id="course-multiselect-label">Courses</InputLabel>
+        <Select
+          labelId="course-multiselect-label"
+          id="course-multiselect"
+          multiple
+          value={selectedCourses}
+          onChange={handleChange}
+          input={<OutlinedInput id="select-multiple-chip" label="Courses" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
+          MenuProps={MenuProps}
+        >
+          {subjects.map((subject) => (
+            <MenuItem
+              key={subject}
+              value={subject}
+              style={getStyles(subject, selectedCourses, theme)}
+            >
+              {subject}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
   );
-}
+};
 
 export default CourseFilter;
+
+// import React from 'react';
+
+// const subjects = ["Math", "Physics", "Chemistry", "English", "Spanish", "History", "Biology", "Geography"];
+
+// const CourseFilter = ({ selectedCourses, setSelectedCourses }) => {
+//   const toggleCourse = (subject) => {
+//     selectedCourses.includes(subject)
+//       ? setSelectedCourses(selectedCourses.filter(s => s !== subject))
+//       : setSelectedCourses([...selectedCourses, subject]);
+//   };
+
+//   return (
+//     <div>
+//       <h3>Courses</h3>
+//       {subjects.map(subject => (
+//         <label key={subject} style={{ marginRight: '10px' }}>
+//           <input
+//             type="checkbox"
+//             checked={selectedCourses.includes(subject)}
+//             onChange={() => toggleCourse(subject)}
+//           />
+//           {subject}
+//         </label>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default CourseFilter;

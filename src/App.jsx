@@ -46,7 +46,7 @@ function App() {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [minScore, setMinScore] = useState(85);
   const [selectedSchools, setSelectedSchools] = useState([]);
-  const [selectedHours, setSelectedHours] = useState([8, 22]); // time range in 24hr
+  //const [selectedHours, setSelectedHours] = useState([8, 22]); // time range in 24hr
 
   const filteredTutors = tutors.filter(tutor => {
     const matchesCourse = selectedCourses.length === 0 || selectedCourses.some(c => tutor.course.includes(c));
