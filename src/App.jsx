@@ -42,18 +42,20 @@ import SchoolFilter from './components/SchoolFilter';
 import TutorList from './components/TutorList';
 // import TimeSlider from './components/TimeSlider';
 
-function App() {
+const App = () => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [minScore, setMinScore] = useState(85);
   const [selectedSchools, setSelectedSchools] = useState([]);
-  //const [selectedHours, setSelectedHours] = useState([8, 22]); // time range in 24hr
+  // const [selectedHours, setSelectedHours] = useState([8, 22]); // time range in 24hr
 
   const filteredTutors = tutors.filter(tutor => {
-    const matchesCourse = selectedCourses.length === 0 || selectedCourses.some(c => tutor.course.includes(c));
+    const matchesCourse =
+      selectedCourses.length === 0 || selectedCourses.some(c => tutor.course.includes(c));
     const matchesScore = tutor.satisfaction_score >= minScore;
-    const matchesSchool = selectedSchools.length === 0 || selectedSchools.some(school =>
-      tutor.target_school.includes(school)
-    );
+    const matchesSchool =
+      selectedSchools.length === 0 || selectedSchools.some(school =>
+        tutor.target_school.includes(school)
+      );
     // const matchesTime = tutor.available_time_slot.some(slot => {
     //   const [start] = slot.split('-').map(t => parseInt(t.split(':')[0]));
     //   return start >= selectedHours[0] && start <= selectedHours[1];
@@ -73,7 +75,6 @@ function App() {
       <TutorList tutors={filteredTutors} />
     </div>
   );
-}
+};
 
 export default App;
-//ff
