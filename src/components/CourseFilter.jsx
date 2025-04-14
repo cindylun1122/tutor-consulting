@@ -83,10 +83,17 @@ export default CourseFilter;
 
 // const CourseFilter = ({ selectedCourses, setSelectedCourses }) => {
 //   const toggleCourse = (subject) => {
-//     selectedCourses.includes(subject)
-//       ? setSelectedCourses(selectedCourses.filter(s => s !== subject))
-//       : setSelectedCourses([...selectedCourses, subject]);
+//     const isSelected = selectedCourses.includes(subject);
+
+//     if (isSelected) {
+//       const updated = selectedCourses.filter(s => s !== subject); // remove it
+//       setSelectedCourses(updated);
+//     } else {
+//       const updated = [...selectedCourses, subject]; // add it
+//       setSelectedCourses(updated);
+//     }
 //   };
+// };
 
 //   return (
 //     <div>
