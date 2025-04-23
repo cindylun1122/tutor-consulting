@@ -1,47 +1,32 @@
-// function TimeSlider({ selectedHours, setSelectedHours }) {
-//   const [start, end] = selectedHours;
-
-//   return (
-//     <div>
-//       <h3>Available Hours: {start}:00 to {end}:00</h3>
-//       <label>Start Time:</label>
-//       <input
-//         type="range"
-//         min="8"
-//         max="21"
-//         value={start}
-//         onChange={(e) => setSelectedHours([Number(e.target.value), end])}
-//       />
-//       <label>End Time:</label>
-//       <input
-//         type="range"
-//         min="9"
-//         max="22"
-//         value={end}
-//         onChange={(e) => setSelectedHours([start, Number(e.target.value)])}
-//       />
-//     </div>
-//   );
-// }
-
-// export default TimeSlider;
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button, Typography, Grid } from '@mui/material';
 
+/**
+ * Generates a list of 30-minute time slots between 8:00 and 22:00.
+ *
+ * @function
+ * @returns An array of time slots
+ */
 const generateTimeSlots = () => {
   const slots = [];
   for (let hour = 8; hour < 22; hour++) {
-    slots.push(`${hour}:00`);
+    slots.push(`${hour}:00`); //add elements to the array
     slots.push(`${hour}:30`);
   }
   slots.push(`22:00`);
   return slots;
 };
 
+/**
+ * A component that allows users to select their available time slots.
+ * Users can toggle buttons to select or deselect 30-minute intervals.
+ */
 const TimeSelector = ({ selectedSlots, setSelectedSlots }) => {
   const timeSlots = generateTimeSlots();
 
+   /**
+   * Toggles a time slot in or out of the selectedSlots array.
+   */
   const toggleSlot = (slot) => {
     if (selectedSlots.includes(slot)) {
       setSelectedSlots(selectedSlots.filter(s => s !== slot));
@@ -50,10 +35,11 @@ const TimeSelector = ({ selectedSlots, setSelectedSlots }) => {
     }
   };
 
+  /* change from MUI to make it consistent with other components */
   return (
     <Box sx={{ mt: 3 }}>
       <Typography variant="subtitle1" gutterBottom>
-        Select Available Time (like When2Meet)
+        Available Time
       </Typography>
       <Grid container spacing={1} sx={{ maxWidth: 520 }}>
         {timeSlots.map(slot => (
@@ -68,11 +54,6 @@ const TimeSelector = ({ selectedSlots, setSelectedSlots }) => {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="body2">
-          <strong>Selected Slots:</strong> {selectedSlots.join(', ') || 'None'}
-        </Typography>
-      </Box>
     </Box>
   );
 };

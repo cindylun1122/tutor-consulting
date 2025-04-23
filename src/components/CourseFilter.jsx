@@ -1,3 +1,6 @@
+/**
+ The entire code is first copy from MUI MultipleSelectChip sample and I checked the code from line to line
+ */
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,24 +22,38 @@ const MenuProps = {
   },
 };
 
+/**
+ * Replaces names from MUI demo to list of available course subjects.
+ */
 const subjects = [
   "Math", "Physics", "Chemistry", "English", "Spanish",
   "History", "Biology", "Geography"
 ];
 
+/**
+ * @param *Change the parameter PersonNames to electedCourses
+ */
 const getStyles = (name, selectedCourses, theme) => ({
   fontWeight: selectedCourses.includes(name)
     ? theme.typography.fontWeightMedium
     : theme.typography.fontWeightRegular,
 });
 
+/**
+ * A multi-select component that lets users choose from a list of courses
+ *  adapted from the MUI MultipleSelectChip example.
+ */
 const CourseFilter = ({ selectedCourses, setSelectedCourses }) => {
   const theme = useTheme();
 
+  /**
+   * Updates the selected courses state based on user input.
+   */
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
+
     setSelectedCourses(typeof value === 'string' ? value.split(',') : value);
   };
 
